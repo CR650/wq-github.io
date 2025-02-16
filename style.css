@@ -9,9 +9,12 @@ html, body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;  /* 水平居中 */
-    align-items: center;      /* 垂直居中 */
-    background-color: #faf8ef;
+    justify-content: center;
+    align-items: center;
+    background-image: url('image/BG.jpg');  /* 背景图片 */
+    background-size: cover;      /* 让背景图片充满整个屏幕 */
+    background-position: center; /* 背景图片居中显示 */
+    background-attachment: fixed; /* 固定背景，滚动时背景不会移动 */
     overflow: hidden;
 }
 
