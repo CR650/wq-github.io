@@ -28,6 +28,7 @@ html, body {
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0 auto; /* 这个确保游戏区域居中 */
 }
 
 #score {
