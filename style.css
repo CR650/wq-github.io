@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #faf8ef;
+}
+
+#game {
+    text-align: center;
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-gap: 10px;
+    margin: 20px auto;
+}
+
+.tile {
+    width: 100px;
+    height: 100px;
+    background-color: #eee4da;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #776e65;
+    border-radius: 5px;
+}
+
+.tile[data-value="2"] { background-color: #eee4da; }
+.tile[data-value="4"] { background-color: #ede0c8; }
+.tile[data-value="8"] { background-color: #f2b179; }
+.tile[data-value="16"] { background-color: #f59563; }
+.tile[data-value="32"] { background-color: #f67c5f; }
+.tile[data-value="64"] { background-color: #f67c5f; }
+.tile[data-value="128"] { background-color: #f9f3b1; }
+.tile[data-value="256"] { background-color: #f9f3b1; }
+.tile[data-value="512"] { background-color: #c2e1c2; }
+.tile[data-value="1024"] { background-color: #c2e1c2; }
+.tile[data-value="2048"] { background-color: #c2e1c2; }
+
+#score {
+    font-size: 36px;
+    margin: 20px;
+}
