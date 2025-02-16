@@ -49,7 +49,7 @@ function updateGrid() {
 }
 
 function updateScore() {
-    document.getElementById('score').innerText = `Score: ${score}`;
+    document.getElementById('score').innerText = `分数: ${score}`;
 }
 
 window.addEventListener('keydown', (e) => {
