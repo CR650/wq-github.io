@@ -1,152 +1,119 @@
 let score = 0;
+let grid = [];
 let startX, startY;
 
 function initGame() {
-    const grid = document.getElementById('grid');
-    grid.innerHTML = '';
+    const gridElement = document.getElementById('grid');
+    gridElement.innerHTML = '';
+    grid = [];
     score = 0;
-    document.getElementById('score').innerText = score;
+    document.getElementById('score').innerText = `Score: ${score}`;
+
+    // 创建 16 个格子
     for (let i = 0; i < 16; i++) {
         const tile = document.createElement('div');
         tile.classList.add('tile');
-        grid.appendChild(tile);
+        gridElement.appendChild(tile);
+        grid.push(tile);
     }
     addRandomTile();
     addRandomTile();
-    initTouchEvents(); // 初始化触摸事件
+    initTouchEvents();
 }
 
 function addRandomTile() {
-    const tiles = document.querySelectorAll('.tile');
-    const emptyTiles = Array.from(tiles).filter(tile => !tile.innerText);
-    if (emptyTiles.length === 0) return; // 没有空位时不添加
+    const emptyTiles = grid.filter(tile => !tile.innerText);
+    if (emptyTiles.length === 0) return; // 如果没有空格子，停止添加新格子
     const randomTile = emptyTiles[Math.floor(Math.random() * emptyTiles.length)];
-    randomTile.innerText = Math.random() < 0.9 ? 2 : 4;
-    randomTile.setAttribute('data-value', randomTile.innerText);
+    const value = Math.random() < 0.9 ? 2 : 4;
+    randomTile.innerText = value;
+    randomTile.setAttribute('data-value', value);
 }
 
 document.getElementById('restart').addEventListener('click', initGame);
-
 window.addEventListener('keydown', handleKeyPress);
 
 function handleKeyPress(event) {
     switch (event.key) {
-        case 'ArrowUp':
-            moveUp();
-            break;
-        case 'ArrowDown':
-            moveDown();
-            break;
-        case 'ArrowLeft':
-            moveLeft();
-            break;
-        case 'ArrowRight':
-            moveRight();
-            break;
+        case 'ArrowUp': moveUp(); break;
+        case 'ArrowDown': moveDown(); break;
+        case 'ArrowLeft': moveLeft(); break;
+        case 'ArrowRight': moveRight(); break;
     }
     addRandomTile();
     updateScore();
 }
 
-function moveUp() {
-    for (let col = 0; col < 4; col++) {
-        const tiles = [];
-        for (let row = 0; row < 4; row++) {
-            tiles.push(getTileValue(row, col));
-        }
-        const newTiles = mergeTiles(tiles);
-        for (let row = 0; row < 4; row++) {
-            setTileValue(row, col, newTiles[row]);
-        }
-    }
-}
+function moveUp() { processMove(0, -1); }
+function moveDown() { processMove(0, 1); }
+function moveLeft() { processMove(-1, 0); }
+function moveRight() { processMove(1, 0); }
 
-function moveDown() {
-    for (let col = 0; col < 4; col++) {
-        const tiles = [];
-        for (let row = 3; row >= 0; row--) {
-            tiles.push(getTileValue(row, col));
-        }
-        const newTiles = mergeTiles(tiles);
-        for (let row = 3; row >= 0; row--) {
-            setTileValue(row, col, newTiles[3 - row]);
-        }
-    }
-}
-
-function moveLeft() {
+function processMove(dx, dy) {
+    const tiles = [];
+    // 这里是根据滑动方向（dx 和 dy）来处理每一列或者每一行的合并
     for (let row = 0; row < 4; row++) {
-        const tiles = [];
+        const line = [];
         for (let col = 0; col < 4; col++) {
-            tiles.push(getTileValue(row, col));
+            const x = dx === 0 ? row : col;
+            const y = dy === 0 ? col : row;
+            line.push(getTileValue(x, y));
         }
-        const newTiles = mergeTiles(tiles);
+        const newLine = mergeTiles(line);
         for (let col = 0; col < 4; col++) {
-            setTileValue(row, col, newTiles[col]);
-        }
-    }
-}
-
-function moveRight() {
-    for (let row = 0; row < 4; row++) {
-        const tiles = [];
-        for (let col = 3; col >= 0; col--) {
-            tiles.push(getTileValue(row, col));
-        }
-        const newTiles = mergeTiles(tiles);
-        for (let col = 3; col >= 0; col--) {
-            setTileValue(row, col, newTiles[3 - col]);
+            const x = dx === 0 ? row : col;
+            const y = dy === 0 ? col : row;
+            setTileValue(x, y, newLine[col]);
         }
     }
 }
 
 function getTileValue(row, col) {
     const index = row * 4 + col;
-    const tile = document.querySelectorAll('.tile')[index];
+    const tile = grid[index];
     return parseInt(tile.innerText) || 0;
 }
 
 function setTileValue(row, col, value) {
     const index = row * 4 + col;
-    const tile = document.querySelectorAll('.tile')[index];
+    const tile = grid[index];
     tile.innerText = value ? value : '';
     tile.setAttribute('data-value', value);
 }
 
 function mergeTiles(tiles) {
-    const newTiles = tiles.filter(tile => tile !== 0);
-    for (let i = 0; i < newTiles.length - 1; i++) {
-        if (newTiles[i] === newTiles[i + 1]) {
-            newTiles[i] *= 2;
-            score += newTiles[i]; // 更新分数
-            newTiles.splice(i + 1, 1);
+    const nonEmptyTiles = tiles.filter(val => val !== 0);
+    for (let i = 0; i < nonEmptyTiles.length - 1; i++) {
+        if (nonEmptyTiles[i] === nonEmptyTiles[i + 1]) {
+            nonEmptyTiles[i] *= 2;
+            score += nonEmptyTiles[i];
+            nonEmptyTiles.splice(i + 1, 1);
         }
     }
-    while (newTiles.length < 4) {
-        newTiles.push(0);
-    }
-    return newTiles;
+    while (nonEmptyTiles.length < 4) nonEmptyTiles.push(0);
+    return nonEmptyTiles;
 }
 
 function updateScore() {
-    document.getElementById('score').innerText = score;
+    document.getElementById('score').innerText = `Score: ${score}`;
 }
 
 function initTouchEvents() {
-    const grid = document.getElementById('grid');
-    grid.addEventListener('touchstart', handleTouchStart, false);
-    grid.addEventListener('touchend', handleTouchEnd, false);
-    grid.addEventListener('touchmove', handleTouchMove, false);  // 防止滑动时默认行为
+    const gridElement = document.getElementById('grid');
+    gridElement.addEventListener('touchstart', handleTouchStart, false);
+    gridElement.addEventListener('touchmove', handleTouchMove, false);
+    gridElement.addEventListener('touchend', handleTouchEnd, false);
 }
 
 function handleTouchStart(event) {
     const touch = event.touches[0];
     startX = touch.clientX;
     startY = touch.clientY;
+    event.preventDefault();
 }
 
 function handleTouchMove(event) {
-    event.preventDefault();  // 防止滑动时页面滚动
+    event.preventDefault();
 }
 
 function handleTouchEnd(event) {
@@ -155,18 +122,13 @@ function handleTouchEnd(event) {
     const deltaY = touch.clientY - startY;
 
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        if (deltaX > 0) {
-            moveRight();
-        } else {
-            moveLeft();
-        }
+        if (deltaX > 0) moveRight();
+        else moveLeft();
     } else {
-        if (deltaY > 0) {
-            moveDown();
-        } else {
-            moveUp();
-        }
+        if (deltaY > 0) moveDown();
+        else moveUp();
     }
+
     addRandomTile();
     updateScore();
 }
