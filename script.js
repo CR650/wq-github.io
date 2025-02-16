@@ -1,5 +1,6 @@
 let grid = [];
 let score = 0;
+let startX, startY;
 
 function initGame() {
     grid = [
@@ -136,4 +137,43 @@ function merge(arr) {
     return newArr;
 }
 
+// 触摸事件处理
+function initTouchEvents() {
+    const gridElement = document.getElementById('grid');
+    gridElement.addEventListener('touchstart', handleTouchStart, false);
+    gridElement.addEventListener('touchend', handleTouchEnd, false);
+}
+
+function handleTouchStart(event) {
+    const touch = event.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+}
+
+function handleTouchEnd(event) {
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - startX;
+    const deltaY = touch.clientY - startY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        // 水平滑动
+        if (deltaX > 0) {
+            moveRight();
+        } else {
+            moveLeft();
+        }
+    } else {
+        // 垂直滑动
+        if (deltaY > 0) {
+            moveDown();
+        } else {
+            moveUp();
+        }
+    }
+    addRandomTile();
+    updateScore();
+}
+
+// 初始化游戏并绑定触摸事件
 initGame();
+initTouchEvents();
