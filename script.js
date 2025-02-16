@@ -136,34 +136,28 @@ function initTouchEvents() {
     const grid = document.getElementById('grid');
     grid.addEventListener('touchstart', handleTouchStart, false);
     grid.addEventListener('touchend', handleTouchEnd, false);
-
-    // 禁止游戏区域滑动
-    document.body.addEventListener('touchmove', function(event) {
-        event.preventDefault();  // 禁止整个页面滚动
-    }, { passive: false });
 }
 
 function handleTouchStart(event) {
-    event.preventDefault();  // 禁止滚动
     const touch = event.touches[0];
     startX = touch.clientX;
     startY = touch.clientY;
 }
 
 function handleTouchEnd(event) {
-    event.preventDefault();  // 禁止滚动
     const touch = event.changedTouches[0];
     const deltaX = touch.clientX - startX;
     const deltaY = touch.clientY - startY;
 
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > MIN_SWIPE_DISTANCE) {
+    // 判断滑动方向
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
         // 水平滑动
         if (deltaX > 0) {
             moveRight();
         } else {
             moveLeft();
         }
-    } else if (Math.abs(deltaY) > MIN_SWIPE_DISTANCE) {
+    } else {
         // 垂直滑动
         if (deltaY > 0) {
             moveDown();
@@ -171,7 +165,6 @@ function handleTouchEnd(event) {
             moveUp();
         }
     }
-
     addRandomTile();
     updateScore();
 }
