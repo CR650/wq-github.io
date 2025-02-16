@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048 游戏</title>
+    <title>2048 Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main id="game">
-        <h1>2048</h1>
+    <div id="game">
         <div id="score">Score: 0</div>
-        <div id="grid" aria-label="游戏网格"></div>
-        <button id="restart">重新开始</button>
-    </main>
+        <div id="grid"></div>
+        <button onclick="initGame()">Restart</button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
