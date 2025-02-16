@@ -36,6 +36,7 @@ body {
     width: 100%;
     max-width: 100%; /* 确保网格容器不会超出屏幕宽度 */
     height: auto;
+    touch-action: none; /* 禁止默认滚动，确保滑动操作生效 */
 }
 
 .tile {

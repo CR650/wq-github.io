@@ -136,6 +136,7 @@ function initTouchEvents() {
     const grid = document.getElementById('grid');
     grid.addEventListener('touchstart', handleTouchStart, false);
     grid.addEventListener('touchend', handleTouchEnd, false);
+    grid.addEventListener('touchmove', handleTouchMove, false);  // 防止滑动时默认行为
 }
 
 function handleTouchStart(event) {
@@ -144,21 +145,22 @@ function handleTouchStart(event) {
     startY = touch.clientY;
 }
 
+function handleTouchMove(event) {
+    event.preventDefault();  // 防止滑动时页面滚动
+}
+
 function handleTouchEnd(event) {
     const touch = event.changedTouches[0];
     const deltaX = touch.clientX - startX;
     const deltaY = touch.clientY - startY;
 
-    // 判断滑动方向
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        // 水平滑动
         if (deltaX > 0) {
             moveRight();
         } else {
             moveLeft();
         }
     } else {
-        // 垂直滑动
         if (deltaY > 0) {
             moveDown();
         } else {
