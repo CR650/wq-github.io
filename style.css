@@ -1,54 +1,51 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+/* 页面和身体的基础样式 */
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden; /* 禁止页面滚动 */
+}
+
+body {
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('image/BG.jpg');  /* 背景图片 */
-    background-size: cover;      /* 让背景图片充满整个屏幕 */
-    background-position: center; /* 背景图片居中显示 */
-    background-attachment: fixed; /* 固定背景，滚动时背景不会移动 */
-    overflow: hidden;
+    background-image: url('images/background.jpg'); /* 背景图片 */
+    background-size: cover; /* 背景图片覆盖整个页面 */
+    background-position: center; /* 背景图片居中 */
+    height: 100%; /* 页面高度为100% */
 }
 
+/* 游戏区域的样式 */
 #game {
+    text-align: center;
+    width: 90vw; /* 游戏区域占据90%的视口宽度，确保不超出 */
+    max-width: 400px; /* 最大宽度400px（根据需要可以调整） */
+    height: 80vh; /* 高度占据80%的视口高度 */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 90vw;               /* 设置为屏幕宽度的 90% */
-    height: 90vh;              /* 设置为屏幕高度的 90% */
-    max-width: 400px;          /* 最大宽度为 400px */
-    max-height: 400px;         /* 最大高度为 400px */
-    padding: 20px;
-    background-color: #bbada0;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.8); /* 背景白色带透明度，不遮挡背景图片 */
+    border-radius: 10px; /* 游戏区域圆角 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 给游戏区域增加阴影 */
+    padding: 20px; /* 增加内边距 */
+    box-sizing: border-box; /* 包括内边距和边框在内的总宽高 */
 }
 
-#score {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #fff;
-}
-
+/* 游戏网格的布局 */
 #grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(4, 1fr); /* 4列的均分布局 */
+    grid-gap: 10px; /* 格子之间的间距 */
+    margin-top: 20px;
     width: 100%;
-    aspect-ratio: 1;
-    margin-bottom: 20px;
+    height: 100%;
+    max-width: 100%; /* 确保网格容器不会超出屏幕宽度 */
 }
 
+/* 每个格子的样式 */
 .tile {
     display: flex;
     justify-content: center;
@@ -58,9 +55,8 @@ html, body {
     font-weight: bold;
     color: #776e65;
     border-radius: 5px;
-    width: 100%;
-    height: 100%;
-    text-align: center;
+    width: 100%; /* 保证每个格子宽度自适应 */
+    height: 100%; /* 保证每个格子高度自适应 */
 }
 
 .tile[data-value="2"] { background-color: #eee4da; }
@@ -75,25 +71,26 @@ html, body {
 .tile[data-value="1024"] { background-color: #c2e1c2; }
 .tile[data-value="2048"] { background-color: #c2e1c2; }
 
-button {
-    padding: 10px 20px;
-    background-color: #8f7a66;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    margin-top: 20px;
+/* 分数显示 */
+#score {
+    font-size: 36px;
+    margin: 20px;
 }
 
-button:hover {
-    background-color: #705c48;
-}
-
+/* 手机适配 */
 @media (max-width: 600px) {
+    #game {
+        padding: 5px; /* 小屏幕下调整游戏区域的内边距 */
+    }
+
     .tile {
-        font-size: 18px;
-        width: 80px;
-        height: 80px;
+        font-size: 16px; /* 调小字体 */
+        width: 70px; /* 减小每个格子的尺寸 */
+        height: 70px;
+    }
+
+    #grid {
+        grid-template-columns: repeat(4, 1fr); /* 保持 4 列布局 */
+        grid-gap: 5px; /* 调整间距 */
     }
 }
