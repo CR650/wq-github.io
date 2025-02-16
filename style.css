@@ -1,14 +1,17 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* 禁止页面滚动 */
+}
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 100vh; */
     background-color: #faf8ef;
     height: 100%; /* 确保页面填充整个屏幕 */
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* 禁止页面滚动 */
 }
 
 #game {
@@ -33,21 +36,19 @@ body {
     width: 100%;
     max-width: 100%; /* 确保网格容器不会超出屏幕宽度 */
     height: auto;
-    aspect-ratio: 1; /* 保持正方形的比例 */
-    padding: 10px; /* 增加内边距 */
 }
 
 .tile {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%; /* 保证每个格子宽度自适应 */
-    height: 100%; /* 保证每个格子高度自适应 */
     background-color: #eee4da;
     font-size: 24px;
     font-weight: bold;
     color: #776e65;
     border-radius: 5px;
+    width: 100%; /* 保证每个格子宽度自适应 */
+    height: 100%; /* 保证每个格子高度自适应 */
 }
 
 .tile[data-value="2"] { background-color: #eee4da; }
@@ -66,14 +67,20 @@ body {
     font-size: 36px;
     margin: 20px;
 }
+
 @media (max-width: 600px) {
+    #game {
+        padding: 5px; /* 小屏幕下调整游戏区域的内边距 */
+    }
+
     .tile {
         font-size: 16px; /* 调小字体 */
-        width: 80px; /* 减小每个格子的尺寸 */
-        height: 80px;
+        width: 70px; /* 减小每个格子的尺寸 */
+        height: 70px;
     }
 
     #grid {
         grid-template-columns: repeat(4, 1fr); /* 保持 4 列布局 */
+        grid-gap: 5px; /* 调整间距 */
     }
 }
